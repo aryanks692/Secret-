@@ -1,0 +1,315 @@
+Here are the Ubuntu terminal commands/steps from **Experiment 1 to Experiment 10** from your uploaded DevOps lab manual 
+
+---
+
+# Experiment 1: Install Maven & Gradle
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+
+# Install Java
+sudo apt install openjdk-11-jdk -y
+java -version
+
+# Install Maven
+sudo apt install maven -y
+mvn -version
+
+# Install Gradle
+sudo apt install gradle -y
+gradle -v
+```
+
+(Optional latest Gradle)
+
+```bash
+wget https://services.gradle.org/distributions/gradle-8.0-bin.zip
+sudo unzip -d /opt/gradle gradle-8.0-bin.zip
+echo "export PATH=$PATH:/opt/gradle/gradle-8.0/bin" >> ~/.bashrc
+source ~/.bashrc
+gradle -v
+```
+
+---
+
+# Experiment 2: Maven Project Creation
+
+```bash
+mvn archetype:generate \
+-DgroupId=com.example \
+-DartifactId=MyMavenApp \
+-DarchetypeArtifactId=maven-archetype-quickstart \
+-DinteractiveMode=false
+
+cd MyMavenApp
+
+mvn compile
+mvn test
+mvn package
+mvn clean
+```
+
+Run project:
+
+```bash
+java -cp target/MyMavenApp-1.0-SNAPSHOT.jar com.example.App
+```
+
+---
+
+# Experiment 3: Gradle Project
+
+```bash
+mkdir HelloGradle
+cd HelloGradle
+
+gradle init --type java-application
+gradle build
+gradle run
+gradle hello
+```
+
+---
+
+# Experiment 4: Maven to Gradle Migration
+
+### Maven Project
+
+```bash
+mvn archetype:generate \
+-DgroupId=com.example \
+-DartifactId=HelloMaven \
+-DarchetypeArtifactId=maven-archetype-quickstart \
+-DinteractiveMode=false
+
+cd HelloMaven
+mvn package
+```
+
+Run:
+
+```bash
+java -cp target/HelloMaven-1.0-SNAPSHOT.jar com.example.App
+```
+
+### Convert to Gradle
+
+```bash
+mkdir HelloMavenGradle
+cd HelloMavenGradle
+
+gradle init --type java-application
+gradle build
+gradle run
+```
+
+---
+
+# Experiment 5: Jenkins Installation
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+
+sudo apt install openjdk-11-jdk -y
+java -version
+```
+
+Add Jenkins key:
+
+```bash
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+```
+
+Add repo:
+
+```bash
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+```
+
+Install Jenkins:
+
+```bash
+sudo apt update
+sudo apt install jenkins -y
+
+sudo systemctl start jenkins
+sudo systemctl status jenkins
+```
+
+Get admin password:
+
+```bash
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+Open:
+
+```bash
+http://localhost:8080
+```
+
+---
+
+# Experiment 6: Jenkins CI Pipeline
+
+Build Maven project:
+
+```bash
+mvn clean package
+mvn test
+```
+
+Build Gradle project:
+
+```bash
+gradle clean build
+./gradlew clean build
+./gradlew test
+```
+
+---
+
+# Experiment 7: Install & Run Ansible
+
+Install:
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install ansible -y
+ansible --version
+```
+
+Create inventory:
+
+```bash
+nano hosts.ini
+```
+
+Add:
+
+```ini
+[local]
+localhost ansible_connection=local
+```
+
+Create playbook:
+
+```bash
+nano setup.yml
+```
+
+Add:
+
+```yaml
+---
+- name: Basic Server Setup
+  hosts: local
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install curl
+      apt:
+        name: curl
+        state: present
+```
+
+Run:
+
+```bash
+ansible-playbook -i hosts.ini setup.yml
+```
+
+---
+
+# Experiment 8: Jenkins + Ansible Deployment
+
+Initialize Git:
+
+```bash
+cd path/to/HelloMaven
+git init
+git add .
+git commit -m "Initial commit"
+```
+
+Deploy artifact:
+
+```bash
+ansible-playbook -i /path/to/hosts.ini /path/to/deploy.yml
+```
+
+Check deployment:
+
+```bash
+ls -l /opt/deployment/
+```
+
+---
+
+# Experiment 9: Azure DevOps
+
+Mostly browser setup, but no Ubuntu commands required.
+
+Open:
+
+```bash
+https://dev.azure.com
+```
+
+---
+
+# Experiment 10: Azure Pipeline + GitHub
+
+Install IntelliJ:
+
+```bash
+sudo snap install intellij-idea-community --classic
+intellij-idea-community
+```
+
+Install Git:
+
+```bash
+sudo apt install git -y
+git --version
+```
+
+Git setup:
+
+```bash
+git init
+git add .
+git commit -m "First Commit"
+git branch -M main
+```
+
+Configure Git:
+
+```bash
+git config --global user.name "Your_Name"
+git config --global user.email "Your_Email"
+```
+
+Generate SSH key:
+
+```bash
+ssh-keygen -t rsa -b 4096 -C youremail@gmail.com
+cat ~/.ssh/id_rsa.pub
+```
+
+Add remote:
+
+```bash
+git remote add origin <your-repository-url>
+git push -u origin main
+```
+
+---
+
+This is basically the **full Ubuntu command list for all 10 DevOps experiments** in one place.
